@@ -92,6 +92,18 @@ input[type=range]{width:100%;accent-color:var(--blue);height:28px;cursor:pointer
 .mtrack{height:16px;background:var(--grid);border-radius:0 4px 4px 0;overflow:hidden}
 .mfill{height:100%;border-radius:0 4px 4px 0;min-width:2px}
 .mrow .pv{font-size:13.5px;font-weight:600;font-variant-numeric:tabular-nums}
+/* cost vs payment bars */
+.cvp{margin-top:16px}
+.cvprow{display:grid;grid-template-columns:110px 1fr 78px;gap:10px;align-items:center;margin-top:8px}
+.cvplb{font-size:13px;color:var(--ink2);text-align:right}
+.cvptrack{display:flex;height:18px}
+.seg{height:100%;min-width:2px}
+.seg.dev{background:repeating-linear-gradient(45deg,var(--blue) 0 7px,var(--blue-lite) 7px 12px);margin-right:2px;cursor:default}
+.seg.other{background:var(--blue);border-radius:0 4px 4px 0;cursor:default}
+.seg.pay{background:var(--green);border-radius:0 4px 4px 0;cursor:default}
+.cvpv{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.cvpkey{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:var(--muted)}
+.cvpkey .k{width:12px;height:12px;border-radius:3px;display:inline-block;vertical-align:-2px;margin-right:5px}
 /* levers */
 .levers{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:14px}
 .lever{background:var(--surface);border:1px solid var(--ring);border-radius:12px;padding:16px}
@@ -180,8 +192,21 @@ footer{margin-top:64px;border-top:1px solid var(--grid);padding-top:20px;font-si
       <div class="big" id="profitBig">−$547</div>
       <div class="sub" id="profitSub"></div>
       <div class="sub" id="yearSub"></div>
+      <div class="cvp">
+        <div class="cvprow"><div class="cvplb">Hospital's cost</div>
+          <div class="cvptrack"><div class="seg dev" id="segDev" data-tip="The device itself — set by your slider"></div><div class="seg other" id="segOther" data-tip="Everything else, ≈$7,000: cath-lab time & staff, ~1 hospital day, imaging, supplies (estimate)"></div></div>
+          <div class="cvpv" id="costVal"></div></div>
+        <div class="cvprow"><div class="cvplb">Medicare pays</div>
+          <div class="cvptrack"><div class="seg pay" id="segPay" data-tip="Fixed payment for this case type (DRG), 2026 national average"></div></div>
+          <div class="cvpv" id="payVal"></div></div>
+        <div class="cvpkey">
+          <span><span class="k" style="background:repeating-linear-gradient(45deg,var(--blue) 0 4px,var(--blue-lite) 4px 7px)"></span>device</span>
+          <span><span class="k" style="background:var(--blue)"></span>cath lab + staff + ~1 bed day + imaging + supplies (≈$7,000)</span>
+          <span><span class="k" style="background:var(--green)"></span>fixed payment</span>
+        </div>
+      </div>
     </div>
-    <p class="note">Assumes other hospital costs stay fixed at $7,000 (= $24,500 median total cost − $17,500 device). Real hospitals vary a lot; this is a median-based model.</p>
+    <p class="note">Cost split is a median-based estimate: total median cost is $24,500 (verified, n=30,175); the device share (~$15,000–20,000) is estimated, and the ≈$7,000 remainder covers everything else. Doctors' fees (≈$619 for the implanting physician) are paid by Medicare separately — they are <em>not</em> part of the hospital's cost or payment shown here. Real hospitals vary a lot.</p>
   </div>
   <div class="callout">📉 At today's prices, a standard case <strong>loses money</strong> for the median hospital. Every dollar cut from the device price goes <strong>straight to the hospital's bottom line</strong>. That is the sales pitch of a cheaper device.</div>
 </section>
@@ -322,6 +347,12 @@ function hospCalc() {
   document.getElementById("yearSub").textContent =
     delta > 0 ? `Yearly gain for the hospital vs today: +${usd(delta)} (${n} cases).`
               : `Move the device price below ${usd(BASE_DEV)} to see the yearly gain.`;
+  const MAXC = 32000, total = d + OTHER_COST;
+  document.getElementById("segDev").style.width = (d / MAXC * 100) + "%";
+  document.getElementById("segOther").style.width = (OTHER_COST / MAXC * 100) + "%";
+  document.getElementById("segPay").style.width = (revenue / MAXC * 100) + "%";
+  document.getElementById("costVal").textContent = usd(total);
+  document.getElementById("payVal").textContent = usd(revenue);
 }
 devPrice.addEventListener("input", hospCalc);
 caseN.addEventListener("input", hospCalc);
