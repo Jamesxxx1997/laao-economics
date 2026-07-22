@@ -117,7 +117,7 @@ footer{margin-top:64px;border-top:1px solid var(--grid);padding-top:20px;font-si
 
 <header class="hero">
   <h1>Who really pays for a $17,500 heart implant?</h1>
-  <p class="sub">A business case study of <strong>LAAO devices</strong> — small implants that close the left atrial appendage to help prevent stroke. Built from public data: insurance rules, hospital costs, and official prices in four countries.</p>
+  <p class="sub">A business case study of <strong>LAAO devices</strong> — small implants that close the left atrial appendage to help prevent stroke. Built from public data on the US and Taiwan: insurance rules, hospital costs, and official prices.</p>
   <div class="tiles">
     <div class="tile"><div class="num">≤ $3,318</div><div class="lbl">The most a typical US Medicare patient pays, in total</div><span class="tag">verified</span></div>
     <div class="tile"><div class="num" style="color:var(--bad)">−$547</div><div class="lbl">What a US hospital earns per standard case, at the median cost</div><span class="tag">verified + estimate</span></div>
@@ -137,26 +137,20 @@ footer{margin-top:64px;border-top:1px solid var(--grid);padding-top:20px;font-si
       <div class="row"><div class="cap"><span>Total cost of one case</span><span>≈ NT$210,000</span></div><div class="bar" style="width:100%" data-tip="Device 174,600 pts + procedure 28,636 pts, paid by National Health Insurance"></div></div>
       <div class="row"><div class="cap"><span>Patient pays</span><span>≈ NT$23–30,000</span></div><div class="bar patient" style="width:13%" data-tip="10% inpatient co-payment, capped at NT$57,000 per stay (estimate)"></div></div>
     </div>
-    <div class="pay"><h3>🇩🇪 Germany (public insurance)</h3>
-      <div class="row"><div class="cap"><span>Total cost of one case</span><span>≈ €8,800</span></div><div class="bar" style="width:100%" data-tip="Median hospital cost in a German study"></div></div>
-      <div class="row"><div class="cap"><span>Patient pays</span><span>≈ €20–40</span></div><div class="bar patient" style="width:2%" data-tip="€10 per hospital day, by law"></div></div>
-    </div>
   </div>
   <div class="callout">💡 If the device gets cheaper, <strong>the patient pays the same</strong>. So a cheaper device must win over <strong>hospitals and insurers</strong> — not patients.</div>
 </section>
 
 <section id="s2">
   <h2><span class="n">2 ·</span> Same device, very different prices</h2>
-  <p>The market leader is the Watchman (Boston Scientific). Its official price in France or Taiwan is about <strong>3× lower</strong> than what US hospitals pay.</p>
+  <p>The market leader is the Watchman (Boston Scientific). Its official price in Taiwan is about <strong>3× lower</strong> than what US hospitals pay — for the same device.</p>
   <div class="card">
     <div class="chart" id="priceMap"></div>
     <div class="axisline" id="priceAxis"></div>
-    <p class="note">Solid bars = official government prices. Striped bar = estimate from US hospital data. Japan's price was set in 2019 (≈$13,600 at the 2019 exchange rate; ≈$9,000 at today's weaker yen).</p>
+    <p class="note">Solid bar = official government price. Striped bar = estimate from US hospital data ($15,000–20,000 range).</p>
     <details><summary>Show as table</summary>
       <table><thead><tr><th>Country</th><th>Price (USD approx.)</th><th>Basis</th></tr></thead><tbody>
-        <tr><td>France</td><td class="num">$5,039</td><td>Official list price (LPPR), 2024</td></tr>
         <tr><td>Taiwan</td><td class="num">$5,396</td><td>Official NHI payment, 2026</td></tr>
-        <tr><td>Japan</td><td class="num">$9,012</td><td>Official price, set 2019 (FX-sensitive)</td></tr>
         <tr><td>United States</td><td class="num">≈$17,500</td><td>Estimated hospital purchase price</td></tr>
       </tbody></table>
     </details>
@@ -243,7 +237,7 @@ footer{margin-top:64px;border-top:1px solid var(--grid);padding-top:20px;font-si
     <span><span class="dot" style="background:var(--blue)"></span> Verified — checked against official sources (CMS, SEC filings, NHI, PubMed, government price lists)</span>
     <span><span class="dot" style="background:repeating-linear-gradient(45deg,var(--blue) 0 4px,var(--blue-lite) 4px 7px)"></span> Estimate — clearly marked, with assumptions stated</span>
   </div>
-  <p>Key sources: CMS MS-DRG rates (2026); Boston Scientific 10-K (FY2025) and reimbursement guide; JACC Advances hospitalization-cost study (n=30,175); Japan MHLW price file (2019); France LPPR (2024); Taiwan NHI fee schedule (2026). Exchange rates of 2026-07-22.</p>
+  <p>Key sources: CMS MS-DRG rates (2026); Boston Scientific 10-K (FY2025) and reimbursement guide; JACC Advances hospitalization-cost study (n=30,175); Taiwan NHI fee schedule (2026). Exchange rate of 2026-07-22.</p>
   <p style="margin-top:8px">Educational case study for the BEST course · July 2026. Not medical or investment advice. Figures are simplified for teaching; see assumptions in each section.</p>
 </footer>
 
@@ -267,9 +261,7 @@ const ntd = n => (n < 0 ? "−NT$" : "NT$") + Math.abs(Math.round(n)).toLocaleSt
 
 // ---------- price map ----------
 const prices = [
-  { c: "France",  v: 5039,  est: false, tip: "Official list price (LPPR), 2024: €4,417.50" },
   { c: "Taiwan",  v: 5396,  est: false, tip: "Official NHI payment, 2026: 174,600 points" },
-  { c: "Japan",   v: 9012,  est: false, tip: "Official price set in 2019: ¥1,470,000 (≈$13,600 at 2019 FX)" },
   { c: "US",      v: 17500, est: true,  tip: "Estimated hospital purchase price ($15,000–20,000 range)" },
 ];
 const MAXP = 20000;
